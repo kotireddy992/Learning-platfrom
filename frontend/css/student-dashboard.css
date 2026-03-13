@@ -1,0 +1,169 @@
+/* Subject-wise video grouping */
+.subject-section {
+    margin-bottom: 40px;
+}
+
+.subject-header {
+    font-size: 1.5em;
+    color: #2563eb;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+/* Assignment card styling (similar to video cards) */
+.assignment-card-new {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.assignment-card-new:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.assignment-card-new.status-submitted {
+    border-color: #10b981;
+}
+
+.assignment-card-new.status-overdue {
+    border-color: #ef4444;
+}
+
+.assignment-card-new.status-due-soon {
+    border-color: #f59e0b;
+}
+
+.assignment-card-new.status-pending {
+    border-color: #3b82f6;
+}
+
+.assignment-thumbnail {
+    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.assignment-card-new.status-submitted .assignment-thumbnail {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.assignment-card-new.status-overdue .assignment-thumbnail {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.assignment-card-new.status-due-soon .assignment-thumbnail {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.assignment-icon-large {
+    font-size: 5em;
+    opacity: 0.9;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+}
+
+.assignment-status-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.assignment-status-badge.status-submitted {
+    color: #10b981;
+}
+
+.assignment-status-badge.status-overdue {
+    color: #ef4444;
+}
+
+.assignment-status-badge.status-due-soon {
+    color: #f59e0b;
+}
+
+.assignment-status-badge.status-pending {
+    color: #3b82f6;
+}
+
+.assignment-grade {
+    background: #f0fdf4;
+    border-left: 4px solid #10b981;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-size: 0.95em;
+}
+
+.assignment-feedback-preview {
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #1e40af;
+}
+
+.submitted-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f0fdf4;
+    color: #10b981;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.overdue-date {
+    color: #ef4444 !important;
+    font-weight: 600;
+}
+
+/* No assignments message */
+.no-videos-message {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.no-videos-icon {
+    font-size: 5em;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.no-videos-message h3 {
+    color: #1e40af;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.no-videos-message p {
+    color: #64748b;
+    font-size: 1.1em;
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - School Performance System</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .hidden { display: none; }
+        .form-select { 
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        .w-full { width: 100%; }
+        .auth-link { 
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .auth-link p { color: #718096; font-size: 14px; }
+        .auth-link a { color: #667eea; text-decoration: none; font-weight: 600; }
+        .auth-link a:hover { color: #764ba2; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="header">
+                <h1>School Performance System</h1>
+                <p>Create Your Account</p>
+            </div>
+            
+            <form id="signupForm" class="form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" class="form-select" required>
+                        <option value="">Select Role</option>
+                        <option value="administrator">Administrator</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>
+                
+                <!-- Administrator/Teacher fields -->
+                <div id="employeeFields" class="hidden">
+                    <div class="form-group">
+                        <label for="employeeId">Employee ID</label>
+                        <input type="text" id="employeeId" name="employeeId">
+                    </div>
+                </div>
+                
+                <!-- Teacher specific fields -->
+                <div id="teacherFields" class="hidden">
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject" class="form-select">
+                            <option value="">Select Subject</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="English">English</option>
+                            <option value="Science">Science</option>
+                            <option value="History">History</option>
+                            <option value="Geography">Geography</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Biology">Biology</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Student specific fields -->
+                <div id="studentFields" class="hidden">
+                    <div class="form-group">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" id="studentId" name="studentId">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <select id="class" name="class" class="form-select">
+                            <option value="">Select Class</option>
+                            <option value="Grade 9A">Grade 9A</option>
+                            <option value="Grade 9B">Grade 9B</option>
+                            <option value="Grade 10A">Grade 10A</option>
+                            <option value="Grade 10B">Grade 10B</option>
+                            <option value="Grade 11A">Grade 11A</option>
+                            <option value="Grade 11B">Grade 11B</option>
+                            <option value="Grade 12A">Grade 12A</option>
+                            <option value="Grade 12B">Grade 12B</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-full">Create Account</button>
+                <div id="error-message" class="error-message" style="display: none;"></div>
+            </form>
+            
+            <div class="auth-link">
+                <p>Already have an account? <a href="/">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupForm = document.getElementById('signupForm');
+            const roleSelect = document.getElementById('role');
+            const employeeFields = document.getElementById('employeeFields');
+            const teacherFields = document.getElementById('teacherFields');
+            const studentFields = document.getElementById('studentFields');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Show/hide fields based on role selection
+            roleSelect.addEventListener('change', function() {
+                const role = this.value;
+                
+                // Hide all conditional fields
+                employeeFields.classList.add('hidden');
+                teacherFields.classList.add('hidden');
+                studentFields.classList.add('hidden');
+                
+                // Show relevant fields
+                if (role === 'administrator' || role === 'teacher') {
+                    employeeFields.classList.remove('hidden');
+                    
+                    if (role === 'teacher') {
+                        teacherFields.classList.remove('hidden');
+                    }
+                } else if (role === 'student') {
+                    studentFields.classList.remove('hidden');
+                }
+            });
+            
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Clear previous errors
+                errorMessage.style.display = 'none';
+                
+                const formData = new FormData(signupForm);
+                const userData = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    password: formData.get('password'),
+                    role: formData.get('role')
+                };
+                
+                // Add role-specific fields
+                if (userData.role === 'administrator' || userData.role === 'teacher') {
+                    userData.employeeId = formData.get('employeeId');
+                    
+                    if (userData.role === 'teacher') {
+                        userData.subject = formData.get('subject');
+                    }
+                } else if (userData.role === 'student') {
+                    userData.studentId = formData.get('studentId');
+                    userData.class = formData.get('class');
+                }
+                
+                const submitBtn = signupForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Creating Account...';
+                submitBtn.disabled = true;
+                
+                try {
+                    console.log('Submitting signup data:', userData);
+                    const response = await window.api.signup(userData);
+                    
+                    if (response.success) {
+                        showSuccess('Account created successfully! Redirecting...');
+                        
+                        // Redirect to login page
+                        setTimeout(() => {
+                            window.location.href = '/';
+                        }, 1500);
+                    }
+                } catch (error) {
+                    console.error('Signup error:', error);
+                    showError(error.message || 'Signup failed. Please try again.');
+                } finally {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.className = 'error-message';
+            }
+            
+            function showSuccess(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.className = 'success-message';
+            }
+        });
+    </script>
+</body>
+</html>

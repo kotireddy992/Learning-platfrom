@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Performance System - Classic Education</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Classic Level Landing Page Styles */
+        :root {
+            --classic-navy: #0f2c59;
+            --classic-gold: #c5a880;
+            --classic-white: #ffffff;
+            --classic-gray: #f8f9fa;
+            --classic-text: #333333;
+            --classic-text-light: #666666;
+        }
+
+        body {
+            background-color: var(--classic-gray);
+            color: var(--classic-text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+            background-image: none;
+        }
+
+        h1, h2, h3, h4, .serif {
+            font-family: 'Merriweather', serif;
+        }
+
+        /* Essential Header */
+        header {
+            background-color: var(--classic-white);
+            border-bottom: 1px solid #e5e5e5;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--classic-navy);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: initial;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--classic-text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--classic-gold);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.75rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-outline {
+            border: 1.5px solid var(--classic-navy);
+            color: var(--classic-navy);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--classic-navy);
+            color: var(--classic-white);
+        }
+
+        .btn-solid {
+            background: var(--classic-navy);
+            color: var(--classic-white);
+            border: 1.5px solid var(--classic-navy);
+        }
+
+        .btn-solid:hover {
+            background: var(--classic-gold);
+            border-color: var(--classic-gold);
+            color: var(--classic-white);
+            box-shadow: 0 4px 12px rgba(197, 168, 128, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--classic-navy);
+            color: var(--classic-white);
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(rgba(15, 44, 89, 0.85), rgba(15, 44, 89, 0.95)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        .hero::after {
+            display: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            background: transparent;
+            color: var(--classic-gold);
+            border: 1px solid var(--classic-gold);
+            border-radius: 2px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--classic-white);
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: initial;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #e2e8f0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .btn-gold {
+            background: var(--classic-gold);
+            color: var(--classic-white);
+            border: 1.5px solid var(--classic-gold);
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: none;
+        }
+        
+        .btn-gold:hover {
+            background: transparent;
+            color: var(--classic-gold);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--classic-white);
+            margin-top: -3rem;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--classic-navy);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--classic-text-light);
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            padding: 0 1rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border: 1px solid #eaeaea;
+            transition: all 0.3s ease;
+            background: var(--classic-white);
+            border-radius: 4px;
+        }
+
+        .feature-card::before {
+            display: none;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            transform: translateY(-5px);
+            border-color: var(--classic-gold);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--classic-navy);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: var(--classic-gray);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 1px solid #e5e5e5;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--classic-navy);
+        }
+
+        .feature-card p {
+            color: var(--classic-text-light);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats-wrap {
+            background: var(--classic-gray);
+            padding: 5rem 2rem;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3.5rem;
+            color: var(--classic-gold);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .stat-item p {
+            color: var(--classic-navy);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* About Section */
+        .about-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+        
+        .about-section h2 {
+            color: var(--classic-navy);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-section p {
+            color: var(--classic-text-light);
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--classic-navy);
+            color: var(--classic-white);
+            padding: 5rem 2rem 2rem;
+            border-top: none;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--classic-gold);
+            font-family: 'Merriweather', serif;
+        }
+
+        .footer-section p {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--classic-white);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .hero p { font-size: 1.1rem; }
+            .nav-links { display: none; }
+            .hero-buttons { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
+            .btn { width: 100%; text-align: center; margin-bottom: 0.5rem; }
+            .features { padding: 4rem 1.5rem; margin-top: 0; border-radius: 0; }
+            .btn-outline, .btn-gold { display: block; }
+            .stats-container { flex-direction: column; gap: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <nav>
+            <a href="#" class="logo serif">EduPerformance</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Academics</a></li>
+                <li><a href="#about">Institution</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="pages/login.html" class="btn btn-outline">Portal Login</a>
+                <a href="pages/signup.html" class="btn btn-solid">Admissions</a>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <span class="badge">Academic Excellence</span>
+            <h1>Fostering the Minds of Tomorrow</h1>
+            <p>A distinguished educational platform providing deep insights, comprehensive management, and an unparalleled academic experience for institutions of excellence.</p>
+            <div class="hero-buttons">
+                <a href="pages/signup.html" class="btn btn-gold">Inquire Now</a>
+                <a href="#features" class="btn btn-outline" style="border-color: #fff; color: #fff;">Discover More</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats-wrap">
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3>1895</h3>
+                <p>Founded Idea</p>
+            </div>
+            <div class="stat-item">
+                <h3>99%</h3>
+                <p>Graduation Rate</p>
+            </div>
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Academic Programs</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="features" class="features">
+        <div class="section-header">
+            <h2 class="serif">Pillars of Our Platform</h2>
+            <p>Empowering educators and inspiring students with comprehensive, time-tested tools.</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🏛️</div>
+                <h3 class="serif">Academic Integrity</h3>
+                <p>Upholding the highest standards with robust plagiarism checks and secure testing environments.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3 class="serif">Extensive Library</h3>
+                <p>Access thousands of curated digital resources, scholarly articles, and classical texts.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">✒️</div>
+                <h3 class="serif">Refined Grading</h3>
+                <p>Utilize traditional and modern rubrics to provide meaningful, constructive feedback on assignments.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎓</div>
+                <h3 class="serif">Alumni Network</h3>
+                <p>Connect current students with a prestigious global network of successful graduates and mentors.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3 class="serif">Detailed Transcripts</h3>
+                <p>Maintain immaculate records of academic achievements, attendance, and extracurricular involvement.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3 class="serif">Parental Engagement</h3>
+                <p>Keep guardians informed with formal progress reports and direct communication channels.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <h2 class="serif">Tradition Meets Innovation</h2>
+        <p>Since our inception, EduPerformance has partnered with leading academic institutions to preserve educational traditions while seamlessly integrating modern technologies. We believe true learning flourishes where structure and innovation are balanced.</p>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="logo serif" style="color: #fff; margin-bottom: 1rem; font-size: 1.5rem;">EduPerformance</h3>
+                <p>Dedicated to academic excellence and the holistic development of every student. Guiding futures, honoring traditions.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Admissions</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Apply Now</a></li>
+                    <li><a href="#">Tuition & Aid</a></li>
+                    <li><a href="#">Campus Tour</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Academic Calendar</a></li>
+                    <li><a href="#">Student Portal</a></li>
+                    <li><a href="#">Directory</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 EduPerformance Institution. All rights reserved. | Virtus et Scientia</p>
+        </div>
+    </footer>
+
+    <script>
+        // Elegant header shrink on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.style.padding = '0.5rem 0';
+                header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+            } else {
+                header.style.padding = '0';
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+            }
+        });
+    </script>
+</body>
+</html>

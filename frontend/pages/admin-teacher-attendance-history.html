@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Attendance History - Admin Panel</title>
+    <link rel="stylesheet" href="../css/admin-professional.css">
+    <style>
+        .history-container { max-width: 1400px; margin: 20px auto; padding: 20px; }
+        .filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filters input, .filters select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: 500; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-secondary { background: #95a5a6; color: white; }
+        .btn:hover { opacity: 0.9; }
+        .history-table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .history-table th, .history-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        .history-table th { background: #34495e; color: white; font-weight: 600; }
+        .status-badge { padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: 500; }
+        .status-present { background: #d4edda; color: #155724; }
+        .status-absent { background: #f8d7da; color: #721c24; }
+        .status-leave { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">School Performance System - Admin</div>
+        <div class="nav-links">
+            <a href="admin-dashboard.html">Dashboard</a>
+            <a href="admin-teacher-attendance.html">Mark Attendance</a>
+            <a href="admin-teacher-attendance-history.html" class="active">History</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </nav>
+
+    <div class="history-container">
+        <h1>Teacher Attendance History</h1>
+
+        <div class="filters">
+            <input type="date" id="startDate" placeholder="Start Date">
+            <input type="date" id="endDate" placeholder="End Date">
+            <select id="teacherFilter">
+                <option value="">All Teachers</option>
+            </select>
+            <button class="btn btn-primary" onclick="loadHistory()">Filter</button>
+            <button class="btn btn-secondary" onclick="exportHistory()">Export CSV</button>
+        </div>
+
+        <div id="loadingIndicator" style="text-align: center; padding: 40px;">
+            <p>Loading history...</p>
+        </div>
+
+        <table class="history-table" id="historyTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Teacher Name</th>
+                    <th>Employee ID</th>
+                    <th>Subject</th>
+                    <th>Status</th>
+                    <th>Marked By</th>
+                    <th>Marked At</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody id="historyTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let allRecords = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            loadTeachers();
+            loadHistory();
+        });
+
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const userRole = localStorage.getItem('userRole');
+            
+            if (!token || userRole !== 'admin') {
+                window.location.href = '../pages/login.html';
+            }
+        }
+
+        async function loadTeachers() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${API_URL}/admin/teachers`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) return;
+                
+                const teachers = await response.json();
+                const teacherFilter = document.getElementById('teacherFilter');
+                
+                teachers.forEach(teacher => {
+                    const option = document.createElement('option');
+                    option.value = teacher._id;
+                    option.textContent = `${teacher.userId.firstName} ${teacher.userId.lastName}`;
+                    teacherFilter.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading teachers:', error);
+            }
+        }
+
+        async function loadHistory() {
+            try {
+                const token = localStorage.getItem('token');
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                const teacherId = document.getElementById('teacherFilter').value;
+                
+                let url = `${API_URL}/admin/teachers/attendance/history?`;
+                if (startDate) url += `startDate=${startDate}&`;
+                if (endDate) url += `endDate=${endDate}&`;
+                if (teacherId) url += `teacherId=${teacherId}&`;
+                
+                const response = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) throw new Error('Failed to load history');
+                
+                allRecords = await response.json();
+                displayHistory();
+            } catch (error) {
+                console.error('Error loading history:', error);
+                alert('Failed to load attendance history');
+            }
+        }
+
+        function displayHistory() {
+            const tbody = document.getElementById('historyTableBody');
+            tbody.innerHTML = '';
+            
+            if (allRecords.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No records found</td></tr>';
+                document.getElementById('historyTable').style.display = 'table';
+                document.getElementById('loadingIndicator').style.display = 'none';
+                return;
+            }
+            
+            allRecords.forEach(record => {
+                const row = document.createElement('tr');
+                const statusClass = `status-${record.status.toLowerCase()}`;
+                const date = new Date(record.date).toLocaleDateString();
+                const markedAt = new Date(record.markedAt).toLocaleString();
+                
+                row.innerHTML = `
+                    <td>${date}</td>
+                    <td>${record.teacherName}</td>
+                    <td>${record.employeeId}</td>
+                    <td>${record.subject}</td>
+                    <td><span class="status-badge ${statusClass}">${record.status}</span></td>
+                    <td>${record.markedBy}</td>
+                    <td>${markedAt}</td>
+                    <td>${record.notes || '-'}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            document.getElementById('historyTable').style.display = 'table';
+            document.getElementById('loadingIndicator').style.display = 'none';
+        }
+
+        function exportHistory() {
+            const headers = ['Date', 'Teacher Name', 'Employee ID', 'Subject', 'Status', 'Marked By', 'Marked At', 'Notes'];
+            const rows = allRecords.map(record => [
+                new Date(record.date).toLocaleDateString(),
+                record.teacherName,
+                record.employeeId,
+                record.subject,
+                record.status,
+                record.markedBy,
+                new Date(record.markedAt).toLocaleString(),
+                record.notes || ''
+            ]);
+            
+            let csvContent = headers.join(',') + '\n';
+            rows.forEach(row => {
+                csvContent += row.map(cell => `"${cell}"`).join(',') + '\n';
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `teacher-attendance-history-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '../pages/login.html';
+        }
+    </script>
+</body>
+</html>

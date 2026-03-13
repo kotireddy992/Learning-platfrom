@@ -1,0 +1,8 @@
+node_modules/
+backend/uploads/
+*.mp4
+*.log
+.env
+build/
+dist/
+.vscode/

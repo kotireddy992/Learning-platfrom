@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Attendance - Admin Panel</title>
+    <link rel="stylesheet" href="../css/admin-professional.css">
+    <style>
+        .attendance-container { max-width: 1400px; margin: 20px auto; padding: 20px; }
+        .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .date-display { font-size: 1.2em; font-weight: bold; color: #2c3e50; }
+        .filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filters input, .filters select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        .bulk-actions { display: flex; gap: 10px; margin-bottom: 20px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: 500; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-warning { background: #f39c12; color: white; }
+        .btn:hover { opacity: 0.9; }
+        .teachers-table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .teachers-table th, .teachers-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        .teachers-table th { background: #34495e; color: white; font-weight: 600; }
+        .teachers-table tr:hover { background: #f8f9fa; }
+        .status-badge { padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: 500; }
+        .status-present { background: #d4edda; color: #155724; }
+        .status-absent { background: #f8d7da; color: #721c24; }
+        .status-leave { background: #fff3cd; color: #856404; }
+        .status-pending { background: #e2e3e5; color: #383d41; }
+        .attendance-buttons { display: flex; gap: 5px; }
+        .attendance-buttons button { padding: 6px 12px; font-size: 0.9em; }
+        .notes-input { width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px; }
+        .loading { text-align: center; padding: 40px; }
+        .notification { position: fixed; top: 20px; right: 20px; padding: 15px 20px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 1000; }
+        .notification.success { background: #27ae60; color: white; }
+        .notification.error { background: #e74c3c; color: white; }
+        .stats-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stat-card h3 { margin: 0 0 10px 0; font-size: 0.9em; color: #7f8c8d; }
+        .stat-card .value { font-size: 2em; font-weight: bold; color: #2c3e50; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">School Performance System - Admin</div>
+        <div class="nav-links">
+            <a href="admin-dashboard.html">Dashboard</a>
+            <a href="admin-teacher-attendance.html" class="active">Teacher Attendance</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </nav>
+
+    <div class="attendance-container">
+        <div class="header-section">
+            <div>
+                <h1>Teacher Attendance</h1>
+                <div class="date-display" id="currentDate"></div>
+            </div>
+            <div>
+                <button class="btn btn-primary" onclick="exportToCSV()">Export to CSV</button>
+                <button class="btn btn-warning" onclick="viewHistory()">View History</button>
+            </div>
+        </div>
+
+        <div class="stats-cards" id="statsCards">
+            <div class="stat-card">
+                <h3>Total Teachers</h3>
+                <div class="value" id="totalTeachers">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Marked Today</h3>
+                <div class="value" id="markedToday">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Pending</h3>
+                <div class="value" id="pendingToday">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Present</h3>
+                <div class="value" id="presentToday" style="color: #27ae60;">0</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Search by name or employee ID..." style="flex: 1; min-width: 250px;">
+            <select id="subjectFilter">
+                <option value="">All Subjects</option>
+            </select>
+            <select id="statusFilter">
+                <option value="">All Status</option>
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+                <option value="Leave">Leave</option>
+                <option value="Pending">Pending</option>
+            </select>
+        </div>
+
+        <div class="bulk-actions">
+            <button class="btn btn-success" onclick="markAllPresent()">Mark All Present</button>
+            <button class="btn btn-danger" onclick="markAllAbsent()">Mark All Absent</button>
+            <button class="btn btn-primary" onclick="refreshData()">Refresh</button>
+        </div>
+
+        <div id="loadingIndicator" class="loading" style="display: none;">
+            <p>Loading teachers...</p>
+        </div>
+
+        <table class="teachers-table" id="teachersTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Assigned Classes</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                    <th>Notes</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="teachersTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="../js/admin-teacher-attendance.js"></script>
+</body>
+</html>

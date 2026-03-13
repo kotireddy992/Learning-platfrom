@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Performance System - Login</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="header">
+                <h1>School Performance System</h1>
+                <p>Government School Management Portal</p>
+            </div>
+            
+            <form id="loginForm" class="form">
+                <div class="form-group">
+                    <label for="username">Email or Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Login</button>
+                
+                <div id="error-message" class="error-message" style="display: none;"></div>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="/pages/signup.html">Sign Up Here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const errorMessage = document.getElementById('error-message');
+            
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                
+                if (!username || !password) {
+                    showError('Please enter both email/username and password');
+                    return;
+                }
+                
+                const submitBtn = loginForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Logging in...';
+                submitBtn.disabled = true;
+                
+                try {
+                    const response = await window.api.login(username, password);
+                    
+                    if (response && response.success && response.user) {
+                        showSuccess(`Welcome, ${response.user.name}!`);
+                        
+                        setTimeout(() => {
+                            const dashboards = {
+                                admin: '/pages/admin-dashboard.html',
+                                teacher: '/pages/teacher-dashboard.html',
+                                student: '/pages/student-dashboard.html'
+                            };
+                            window.location.href = dashboards[response.user.role] || '/';
+                        }, 1000);
+                    }
+                    
+                } catch (error) {
+                    showError(error.message || 'Login failed. Please check your credentials.');
+                } finally {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.className = 'error-message';
+                
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            function showSuccess(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.className = 'success-message';
+                
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

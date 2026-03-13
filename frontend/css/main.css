@@ -1,0 +1,18 @@
+@import url('style.css'); /* Inherits generic modern styles from style.css */
+
+/* Main layout specific globals if any exist can be placed here, otherwise just keep it minimal and let style.css and dashboard.css handle things */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Any extra overrides for elements outside dashboard but not login */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px;
+}
