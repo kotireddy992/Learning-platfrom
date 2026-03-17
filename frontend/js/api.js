@@ -1,5 +1,5 @@
 // API utility functions
-const API_BASE_URL = 'https://school-lms-6hcp.onrender.com';
+const API_BASE_URL = 'https://school1-3.onrender.com';
 window.API = {
     baseURL: API_BASE_URL + '/api',
 
