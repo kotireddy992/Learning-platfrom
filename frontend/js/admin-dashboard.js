@@ -85,7 +85,7 @@ async function loadDashboard() {
 async function loadTeacherAttendanceSummary() {
     try {
         const token = localStorage.getItem('school_auth_token');
-        const response = await fetch('http://localhost:5000/api/admin/teachers/attendance/summary', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/admin/teachers/attendance/summary', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -1670,7 +1670,7 @@ function initializeSectionFeatures(section) {
 // View student attendance details
 async function viewStudentAttendance(studentId, studentName) {
     try {
-        const response = await fetch(`http://localhost:5000/api/admin/students/${studentId}/attendance`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/admin/students/${studentId}/attendance`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1760,4 +1760,5 @@ function closeAttendanceModal() {
     const modal = document.getElementById('attendanceModal');
     if (modal) modal.remove();
 }
+
 

@@ -1016,7 +1016,7 @@ async function updateLessonProgress(lessonId, progressData) {
 // Debug assignment loading
 async function debugAssignments() {
     try {
-        const response = await fetch('http://localhost:5000/api/student/assignments/debug', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/student/assignments/debug', {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1069,7 +1069,7 @@ async function loadAssignments() {
     addDebugButton(); // Add debug button
     
     try {
-        const response = await fetch('http://localhost:5000/api/student/assignments', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/student/assignments', {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1263,7 +1263,7 @@ async function submitAssignment(event) {
     const formData = new FormData(form);
     
     try {
-        const response = await fetch(`http://localhost:5000/api/student/assignments/${assignmentId}/submit`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/student/assignments/${assignmentId}/submit`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
@@ -1293,7 +1293,7 @@ function downloadAssignment(filePath, filename) {
     }
     
     // Use the teacher files endpoint which doesn't require auth
-    const downloadUrl = `http://localhost:5000/api/teacher/files/${filePath}`;
+    const downloadUrl = `https://school-lms-6hcp.onrender.com/api/teacher/files/${filePath}`;
     
     // Create temporary link and trigger download
     const a = document.createElement('a');
@@ -1353,7 +1353,7 @@ async function loadVideos() {
                         const isYouTube = video.type === 'youtube';
                         const videoId = isYouTube ? extractYouTubeId(video.url) : null;
                         const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
-                        const videoUrl = isYouTube ? video.url : `http://localhost:5000/api/teacher/files/${video.filePath}`;
+                        const videoUrl = isYouTube ? video.url : `https://school-lms-6hcp.onrender.com/api/teacher/files/${video.filePath}`;
                         
                         return `
                             <div class="video-card ${isYouTube ? 'youtube-video' : 'file-video'}">
@@ -1442,7 +1442,7 @@ function watchYouTubeVideo(url, title) {
 
 // Function to play video inline with download option
 function playVideoInline(filePath, title) {
-    const videoUrl = `http://localhost:5000/api/teacher/files/${filePath}`;
+    const videoUrl = `https://school-lms-6hcp.onrender.com/api/teacher/files/${filePath}`;
     
     // Create modal for video player
     const modalHtml = `

@@ -1,6 +1,7 @@
 // API utility functions
+const API_BASE_URL = 'https://school-lms-6hcp.onrender.com';
 window.API = {
-    baseURL: 'http://localhost:5000/api',
+    baseURL: API_BASE_URL + '/api',
 
     // Get auth headers
     getAuthHeaders() {
@@ -373,7 +374,7 @@ window.api = {
 
     // Make API request
     async request(endpoint, options = {}) {
-        const url = `http://localhost:5000${this.baseURL}${endpoint}`;
+        const url = `${this.baseURL}${endpoint}`;
         const headers = {
             'Content-Type': 'application/json',
             ...this.getAuthHeaders(),
@@ -442,3 +443,6 @@ window.api = {
         window.location.href = 'login.html';
     }
 };
+
+
+

@@ -431,7 +431,7 @@ function initializeForms() {
                 // Ensure type field is properly set
                 formData.set('type', videoType);
                 
-                const response = await fetch('http://localhost:5000/api/teacher/share-video', {
+                const response = await fetch('https://school-lms-6hcp.onrender.com/api/teacher/share-video', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${Auth.getToken()}`
@@ -682,7 +682,7 @@ async function loadStudentAttendance() {
 
 async function loadAssignedClasses() {
     try {
-        const response = await fetch('http://localhost:5000/api/teacher/assigned-classes', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/teacher/assigned-classes', {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -719,7 +719,7 @@ async function loadStudentsForAttendance() {
     try {
         container.innerHTML = '<div class="loading">Loading students...</div>';
         
-        const response = await fetch(`http://localhost:5000/api/teacher/students/attendance?class=${selectedClass}&date=${selectedDate}`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/teacher/students/attendance?class=${selectedClass}&date=${selectedDate}`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -800,7 +800,7 @@ async function loadStudentsForAttendance() {
 
 async function loadClassView() {
     try {
-        const response = await fetch('http://localhost:5000/api/teacher/assigned-classes', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/teacher/assigned-classes', {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -839,7 +839,7 @@ async function loadClassStudents() {
     try {
         container.innerHTML = '<div class="loading">Loading students...</div>';
         
-        const response = await fetch(`http://localhost:5000/api/teacher/students/attendance?class=${selectedClass}`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/teacher/students/attendance?class=${selectedClass}`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -965,7 +965,7 @@ async function markStudentAttendance(studentId, status) {
         const dateInput = document.getElementById('studentAttendanceDate');
         const date = dateInput ? dateInput.value : new Date().toISOString().split('T')[0];
         
-        const response = await fetch('http://localhost:5000/api/teacher/students/attendance', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/teacher/students/attendance', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -996,7 +996,7 @@ async function updateDashboardStats() {
     try {
         // Force fresh data with cache busting
         const timestamp = Date.now();
-        const response = await fetch(`http://localhost:5000/api/teacher/dashboard?_t=${timestamp}`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/teacher/dashboard?_t=${timestamp}`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1168,7 +1168,7 @@ function markLessonComplete(lessonId) {
 
 async function viewStudentProgress(studentId) {
     try {
-        const response = await fetch(`http://localhost:5000/api/teacher/students/${studentId}/progress`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/teacher/students/${studentId}/progress`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1238,7 +1238,7 @@ function closeProgressModal() {
 
 async function viewStudentAttendance(studentId) {
     try {
-        const response = await fetch(`http://localhost:5000/api/teacher/students/${studentId}/attendance`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/teacher/students/${studentId}/attendance`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1308,7 +1308,7 @@ function closeAttendanceModal() {
 
 async function viewStudentLessons(studentId) {
     try {
-        const response = await fetch(`http://localhost:5000/api/teacher/students/${studentId}/lessons`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/teacher/students/${studentId}/lessons`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1389,7 +1389,7 @@ async function viewStudentLessons(studentId) {
 
 async function loadSharedVideos() {
     try {
-        const response = await fetch('http://localhost:5000/api/teacher/shared-videos', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/teacher/shared-videos', {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1443,7 +1443,7 @@ async function loadSharedVideos() {
 
 async function loadVideoClasses() {
     try {
-        const response = await fetch('http://localhost:5000/api/teacher/video-classes', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/teacher/video-classes', {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1479,7 +1479,7 @@ async function loadVideoClasses() {
 
 async function viewClassVideos(className) {
     try {
-        const response = await fetch(`http://localhost:5000/api/teacher/video-classes/${className}/videos`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/teacher/video-classes/${className}/videos`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1551,13 +1551,13 @@ function backToVideoClasses() {
 }
 
 function playVideo(filePath, title) {
-    const videoUrl = `http://localhost:5000/api/teacher/files/${filePath}`;
+    const videoUrl = `https://school-lms-6hcp.onrender.com/api/teacher/files/${filePath}`;
     window.open(videoUrl, '_blank');
 }
 
 async function viewAllVideos() {
     try {
-        const response = await fetch('http://localhost:5000/api/teacher/shared-videos', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/teacher/shared-videos', {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1623,7 +1623,7 @@ async function deleteVideo(videoId) {
     if (!confirm('Are you sure you want to delete this video?')) return;
     
     try {
-        const response = await fetch(`http://localhost:5000/api/teacher/shared-videos/${videoId}`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/teacher/shared-videos/${videoId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
@@ -1667,7 +1667,7 @@ function showShareVideoForm() {
 
 async function loadAssignments() {
     try {
-        const response = await fetch('http://localhost:5000/api/teacher/assignments', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/teacher/assignments', {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1738,7 +1738,7 @@ async function createAssignment() {
     successElement.style.display = 'none';
     
     try {
-        const response = await fetch('http://localhost:5000/api/teacher/assignments', {
+        const response = await fetch('https://school-lms-6hcp.onrender.com/api/teacher/assignments', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
@@ -1773,7 +1773,7 @@ async function createAssignment() {
 
 async function viewAssignmentSubmissions(assignmentId) {
     try {
-        const response = await fetch(`http://localhost:5000/api/teacher/assignments/${assignmentId}/submissions`, {
+        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/teacher/assignments/${assignmentId}/submissions`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1855,12 +1855,12 @@ function closeSubmissionsModal() {
 }
 
 function downloadAssignmentFile(filePath) {
-    const downloadUrl = `http://localhost:5000/api/teacher/files/${filePath}`;
+    const downloadUrl = `https://school-lms-6hcp.onrender.com/api/teacher/files/${filePath}`;
     window.open(downloadUrl, '_blank');
 }
 
 function downloadSubmission(submissionId) {
-    const downloadUrl = `http://localhost:5000/api/teacher/submissions/${submissionId}/download`;
+    const downloadUrl = `https://school-lms-6hcp.onrender.com/api/teacher/submissions/${submissionId}/download`;
     window.open(downloadUrl, '_blank');
 }
 
@@ -1870,7 +1870,7 @@ function gradeSubmission(submissionId) {
     
     if (grade === null) return;
     
-    fetch(`http://localhost:5000/api/teacher/submissions/${submissionId}/grade`, {
+    fetch(`https://school-lms-6hcp.onrender.com/api/teacher/submissions/${submissionId}/grade`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

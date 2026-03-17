@@ -106,6 +106,16 @@
                         <label for="class">Class</label>
                         <select id="class" name="class" class="form-select">
                             <option value="">Select Class</option>
+                            <option value ="Grade 4A">Grade 4A</option>
+                            <option value ="Grade 4B">Grade 4B</option>
+                            <option value ="Grade 5A">Grade 5A</option>
+                            <option value ="Grade 5B">Grade 5B</option>
+                            <option value ="Grade 6A">Grade 6A</option>
+                            <option value ="Grade 6B">Grade 6B</option>
+                            <option value ="Grade 7A">Grade 7A</option>
+                            <option value ="Grade 7B">Grade 7B</option>
+                            <option value ="Grade 8A">Grade 8A</option>
+                            <option value ="Grade 8B">Grade 8B</option>
                             <option value="Grade 9A">Grade 9A</option>
                             <option value="Grade 9B">Grade 9B</option>
                             <option value="Grade 10A">Grade 10A</option>
@@ -138,16 +148,16 @@
             const studentFields = document.getElementById('studentFields');
             const errorMessage = document.getElementById('error-message');
             
-            // Show/hide fields based on role selection
+            
             roleSelect.addEventListener('change', function() {
                 const role = this.value;
                 
-                // Hide all conditional fields
+                
                 employeeFields.classList.add('hidden');
                 teacherFields.classList.add('hidden');
                 studentFields.classList.add('hidden');
                 
-                // Show relevant fields
+                
                 if (role === 'administrator' || role === 'teacher') {
                     employeeFields.classList.remove('hidden');
                     
@@ -162,7 +172,7 @@
             signupForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                // Clear previous errors
+                
                 errorMessage.style.display = 'none';
                 
                 const formData = new FormData(signupForm);
@@ -173,7 +183,7 @@
                     role: formData.get('role')
                 };
                 
-                // Add role-specific fields
+                
                 if (userData.role === 'administrator' || userData.role === 'teacher') {
                     userData.employeeId = formData.get('employeeId');
                     

@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://school-lms-6hcp.onrender.com/api';
 let allTeachers = [];
 let filteredTeachers = [];
 
@@ -341,3 +341,4 @@ async function deleteTeacher(teacherId, teacherName) {
         showLoading(false);
     }
 }
+

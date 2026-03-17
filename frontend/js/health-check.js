@@ -2,7 +2,7 @@
 class HealthCheck {
     static async checkServer() {
         try {
-            const response = await fetch('http://localhost:5000/api/health');
+            const response = await fetch('https://school-lms-6hcp.onrender.com/api/health');
             if (response.ok) {
                 const data = await response.json();
                 console.log('✅ Server is running:', data.message);

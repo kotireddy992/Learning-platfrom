@@ -75,15 +75,8 @@ router.post('/signup', async (req, res) => {
             return res.status(400).json({ message: 'Invalid role selected' });
         }
 
-        // Prevent multiple admin accounts
-        if (role === 'administrator') {
-            const existingAdmin = await User.findOne({ role: 'admin' });
-            if (existingAdmin) {
-                return res.status(403).json({ 
-                    message: 'Admin account already exists. Only one admin is allowed.' 
-                });
-            }
-        }
+        // Allow admin account creation through signup
+        // Multiple admin accounts are now permitted
 
         // For students, check if email is approved by teacher
         if (role === 'student') {

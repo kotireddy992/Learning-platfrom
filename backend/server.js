@@ -58,9 +58,8 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-    console.log('\n🚀 School Performance System Started Successfully!');
+    console.log(`🚀 Server running on port ${PORT}`);
     console.log('📊 Server running on: http://localhost:' + PORT);
-    console.log('🌐 Click the link above to access the application');
-    console.log('\n✨ Ready to serve requests!\n');
 });
