@@ -993,7 +993,7 @@ async function saveStudentNotes(lessonId) {
 
 async function updateLessonProgress(lessonId, progressData) {
     try {
-        const response = await fetch(`/api/student/lessons/${lessonId}/progress`, {
+        const response = await fetch(`${API_BASE_URL}/api/student/lessons/${lessonId}/progress`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -1016,7 +1016,7 @@ async function updateLessonProgress(lessonId, progressData) {
 // Debug assignment loading
 async function debugAssignments() {
     try {
-        const response = await fetch('https://school-lms-6hcp.onrender.com/api/student/assignments/debug', {
+        const response = await fetch(`${API_BASE_URL}/api/student/assignments/debug`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1069,7 +1069,7 @@ async function loadAssignments() {
     addDebugButton(); // Add debug button
     
     try {
-        const response = await fetch('https://school-lms-6hcp.onrender.com/api/student/assignments', {
+        const response = await fetch(`${API_BASE_URL}/api/student/assignments`, {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             }
@@ -1263,7 +1263,7 @@ async function submitAssignment(event) {
     const formData = new FormData(form);
     
     try {
-        const response = await fetch(`https://school-lms-6hcp.onrender.com/api/student/assignments/${assignmentId}/submit`, {
+        const response = await fetch(`${API_BASE_URL}/api/student/assignments/${assignmentId}/submit`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
@@ -1293,7 +1293,7 @@ function downloadAssignment(filePath, filename) {
     }
     
     // Use the teacher files endpoint which doesn't require auth
-    const downloadUrl = `https://school-lms-6hcp.onrender.com/api/teacher/files/${filePath}`;
+    const downloadUrl = `${API_BASE_URL}/api/teacher/files/${filePath}`;
     
     // Create temporary link and trigger download
     const a = document.createElement('a');
@@ -1442,7 +1442,7 @@ function watchYouTubeVideo(url, title) {
 
 // Function to play video inline with download option
 function playVideoInline(filePath, title) {
-    const videoUrl = `https://school-lms-6hcp.onrender.com/api/teacher/files/${filePath}`;
+    const videoUrl = `${API_BASE_URL}/api/teacher/files/${filePath}`;
     
     // Create modal for video player
     const modalHtml = `

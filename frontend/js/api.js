@@ -1,5 +1,5 @@
 // API utility functions
-const API_BASE_URL = 'https://school1-3.onrender.com';
+const API_BASE_URL = 'https://school-lms-6hcp.onrender.com';
 window.API = {
     baseURL: API_BASE_URL + '/api',
 
@@ -341,7 +341,7 @@ window.API = {
 
 // Legacy api object for backward compatibility
 window.api = {
-    baseURL: '/api',
+    baseURL: API_BASE_URL + '/api',
 
     // Check if user is authenticated
     isAuthenticated() {

@@ -18,6 +18,20 @@ const generateToken = (userId) => {
 
 
 
+// Validate token route
+router.get('/validate', async (req, res) => {
+    try {
+        const token = req.header('Authorization')?.replace('Bearer ', '');
+        if (!token) return res.status(401).json({ message: 'No token' });
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = await User.findById(decoded.userId).select('-password');
+        if (!user || !user.isActive) return res.status(401).json({ message: 'Invalid token' });
+        res.json({ valid: true, user: { id: user._id, role: user.role, name: user.name } });
+    } catch {
+        res.status(401).json({ message: 'Invalid token' });
+    }
+});
+
 // Login route
 router.post('/login', async (req, res) => {
     try {
