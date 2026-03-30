@@ -415,3 +415,4 @@ For detailed information, see:
 **Last Updated**: Current Session
 **Version**: 1.0.0
 **Maintained**: Active
+The live project web page will be available at:https://school-lms-6hcp.onrender.com/
